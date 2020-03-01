@@ -9,21 +9,23 @@
 class Solution {
     public ListNode mergeKLists(ListNode[] lists) {
         PriorityQueue<ListNode> pq = new PriorityQueue<ListNode>((n1, n2)->n1.val - n2.val);
+
         for (ListNode list: lists) {
-            ListNode pointer = list;
-            while (pointer != null) {
-                pq.add(pointer);
-                pointer = pointer.next;
+            if (list != null) {
+                pq.add(list);
             }
         }
 
-        ListNode head = pq.poll();
+        ListNode head = new ListNode(0);
         ListNode temp = head;
-        while (temp != null) {
+
+        while (!pq.isEmpty()) {
             temp.next = pq.poll();
             temp = temp.next;
+            if (temp.next != null)
+                pq.add(temp.next);
         }
 
-        return head;
+        return head.next;
     }
 }
